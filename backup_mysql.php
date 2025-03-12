@@ -5,6 +5,7 @@ $host = 'localhost';
 $username = 'root';
 $password = 'root';
 $database = 'test';
+$port = 3306;
 $file_url = "database_backup";
 if(!is_dir($file_url)){
     mkdir($file_url);   
@@ -19,7 +20,7 @@ $backupFile = $file_url.'/'.$database . date('Y-m-d_H-i-s') . '.sql';
 
 // 构建 mysqldump 命令，使用完整路径
 $mysqldumpPath = 'D:\phpstudy_pro\Extensions\MySQL5.7.26\bin\mysqldump.exe'; // 根据实际路径修改
-$command = "\"$mysqldumpPath\" --host=$host --user=$username --password=$password $database > $backupFile";
+$command = "\"$mysqldumpPath\" --host=$host --port=$port --user=$username --password=$password $database > $backupFile";
 
 // 执行命令
 exec($command, $output, $returnCode);
