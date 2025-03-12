@@ -26,7 +26,11 @@ $worker->onWorkerStart = function () use ($conf,$DataCDB) {
     Timer::add(60, function () use ($conf,$DataCDB) {
         $conf->write_log('分钟触发','每一分钟触发一次');
         $DataCDB->addClient('每分钟触发一次',rand(9999,99999));
-        echo "定时任务执行：" . date('Y-m-d H:i:s') . "\n";
+        //备份数据库
+        $conf->backup_mysql();
+        //备份库里的某一张表
+        $conf->backup_mysql_test();
+        echo "每分钟触发一次" . date('Y-m-d H:i:s') . "\n";
         // 这里编写你的业务逻辑，如清理缓存、发送邮件等
     });
 
@@ -35,7 +39,11 @@ $worker->onWorkerStart = function () use ($conf,$DataCDB) {
         if (date('H') == 2 && date('i') == 0) { // 凌晨 2:00
             $conf->write_log('每天凌晨2点执行','每天凌晨2点执行');
             $DataCDB->addClient('每天凌晨2点执行',rand(9999,99999));
-            echo "凌晨任务触发：" . date('Y-m-d H:i:s') . "\n";
+            //备份数据库
+            $conf->backup_mysql();
+            //备份库里的某一张表
+            $conf->backup_mysql_test();
+            echo "每天凌晨2点执行" . date('Y-m-d H:i:s') . "\n";
             // 执行数据库备份等操作
         }
     });

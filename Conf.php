@@ -38,7 +38,66 @@ class Conf{
         file_put_contents($path, $str, FILE_APPEND);
 
     }
+    /**
+     * 备份数据库
+     */
+    public function backup_mysql(){
+        $file_url = "database_backup";
+        if(!is_dir($file_url)){
+            mkdir($file_url);   
+        }
+        $file_url = $file_url.'/'.date('Y-m-d');
+        if(!is_dir($file_url)){
+            mkdir($file_url);   
+        }
+        
+        // 备份文件路径
+        $backupFile = $file_url.'/'.$this->database_cdb . date('Y-m-d_H-i-s') . '.sql';
+        
+        // 构建 mysqldump 命令，使用完整路径
+        $mysqldumpPath = 'D:\phpstudy_pro\Extensions\MySQL5.7.26\bin\mysqldump.exe'; // 根据实际路径修改
+        $command = "\"$mysqldumpPath\" --host=$this->hostname_cdb --user=$this->username_cdb --password=$this->password_cdb $this->database_cdb > $backupFile";
+        
+        // 执行命令
+        exec($command, $output, $returnCode);
+        
+        if ($returnCode === 0) {
+            echo "数据库备份成功，备份文件为: $backupFile";
+        } else {
+            echo "数据库备份失败，错误代码: $returnCode";
+        } 
+    }
+    /**
+     * 备份库里的某一张表
+     *
+     * @return void
+     */
+    public function backup_mysql_test(){
+        $table = 'sys_websocket_client_list';
+        $file_url = "database_backup";
+        if(!is_dir($file_url)){
+            mkdir($file_url);   
+        }
+        $file_url = $file_url.'/'.date('Y-m-d');
+        if(!is_dir($file_url)){
+            mkdir($file_url);   
+        }
 
-    // public function 
+        // 备份文件路径
+        $backupFile = $file_url .'/'. $this->database_cdb. '_'. $table. date('Y-m-d_H-i-s'). '.sql';
+
+        // 构建 mysqldump 命令，使用完整路径
+        $mysqldumpPath = 'D:\phpstudy_pro\Extensions\MySQL5.7.26\bin\mysqldump.exe'; // 根据实际路径修改
+        $command = "\"$mysqldumpPath\" --host=$this->hostname_cdb --user=$this->username_cdb --password=$this->password_cdb $this->database_cdb $table > $backupFile";
+
+        // 执行命令
+        exec($command, $output, $returnCode);
+
+        if ($returnCode === 0) {
+            echo "数据库表备份成功，备份文件为: $backupFile";
+        } else {
+            echo "数据库表备份失败，错误代码: $returnCode";
+        }
+    }
 }
 ?>
