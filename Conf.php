@@ -88,7 +88,7 @@ class Conf{
 
         // 构建 mysqldump 命令，使用完整路径
         $mysqldumpPath = 'D:\phpstudy_pro\Extensions\MySQL5.7.26\bin\mysqldump.exe'; // 根据实际路径修改
-        $command = "\"$mysqldumpPath\" --host=$this->hostname_cdb --user=$this->username_cdb --password=$this->password_cdb $this->database_cdb $table > $backupFile";
+        $command = "\"$mysqldumpPath\" --host=$this->hostname_cdb --port=$this->port_cdb --user=$this->username_cdb --password=$this->password_cdb $this->database_cdb $table > $backupFile";
 
         // 执行命令
         exec($command, $output, $returnCode);
